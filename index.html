@@ -4,6 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Teresa Xu – Portfolio</title>
+<link rel="stylesheet" href="styles.css?v=2024-01-15">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <style>
 /* Reset and base styles */
 * {
@@ -242,8 +246,6 @@ align-items: center;
 justify-content: center;
 font-size: 4rem;
 box-shadow: var(--shadow-lg);
-position: sticky;
-top: 140px;
 }
 
 .about-text {
@@ -626,8 +628,26 @@ font-size: 2.2rem;
 
 .about-content {
 grid-template-columns: 1fr;
-gap: 40px;
+gap: 30px;
 text-align: center;
+}
+
+.about-image {
+width: 160px;
+height: 160px;
+font-size: 3rem;
+margin-bottom: 20px;
+}
+
+.about-text {
+text-align: left;
+font-size: 1rem;
+}
+
+.about-text p:first-child {
+font-size: 1.1rem;
+text-align: center;
+margin-bottom: 30px;
 }
 
 .projects-grid {
@@ -684,6 +704,25 @@ padding: 40px 15px;
 font-size: 2rem;
 }
 
+.about-image {
+width: 140px;
+height: 140px;
+font-size: 2.5rem;
+}
+
+.about-text {
+font-size: 0.95rem;
+}
+
+.about-text p {
+margin-bottom: 20px;
+}
+
+.about-text p:first-child {
+font-size: 1.05rem;
+margin-bottom: 25px;
+}
+
 .project-card {
 padding: 24px 20px;
 }
@@ -698,6 +737,22 @@ flex-direction: column;
 
 .project-link {
 text-align: center;
+}
+
+.resume-items {
+gap: 16px;
+}
+
+.resume-item {
+padding: 20px;
+}
+
+.contact-info {
+gap: 16px;
+}
+
+.contact-item {
+padding: 16px;
 }
 }
 
@@ -761,7 +816,7 @@ outline-offset: 2px;
 <div class="about-text">
 <p>Hi, I'm Teresa — a product strategist with roots in credit risk and customer analytics, now transitioning into AI product management.</p>
 <p>Over the past few years, I've worked across fintech companies like JP Morgan and NewDay, helping launch complex products such as the first JPMC UK credit card. My focus has always been on bridging business needs with technical execution — whether through structured requirements, user-centered process design, or data-driven decision-making.</p>
-<p>Recently, I’ve been diving into AI product development — experimenting with LLMs, building tools to streamline workflows, and exploring how emerging tech can translate into everyday utility. Some examples are included in my Projects section, where I’ve used this space to prototype ideas quickly, connect design with functionality, and push my skills beyond strategy into execution.</p>
+<p>Recently, I've been diving into AI product development — experimenting with LLMs, building tools to streamline workflows, and exploring how emerging tech can translate into everyday utility. Some examples are included in my Projects section, where I've used this space to prototype ideas quickly, connect design with functionality, and push my skills beyond strategy into execution.</p>
 <p>I'm especially interested in how AI can simplify workflows, unlock better user experiences, and drive intelligent decision-making. My goal is to build thoughtful, scalable products that blend strategic clarity with technical curiosity.</p>
 </div>
 </div>
