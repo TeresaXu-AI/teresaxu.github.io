@@ -248,6 +248,13 @@ font-size: 4rem;
 box-shadow: var(--shadow-lg);
 }
 
+.about-image img {
+width: 100%;
+height: 100%;
+border-radius: 50%;
+object-fit: cover;
+}
+
 .about-text {
 font-size: 1.1rem;
 line-height: 1.8;
@@ -436,13 +443,12 @@ text-align: left;
 }
 
 .resume-section h3, .contact-section h3 {
-font-size: 1.8rem;
-font-weight: 700;
-color: var(--primary-900);
-margin-bottom: 32px;
-display: flex;
-align-items: center;
-gap: 12px;
+font-size: 1.6rem;
+margin-bottom: 28px;
+line-height: 1.2;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 
 .resume-items {
@@ -681,6 +687,13 @@ margin: 0 auto 40px auto;
 position: relative;
 box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 border: 4px solid rgba(255, 255, 255, 0.9);
+}
+
+.about-image img {
+width: 100%;
+height: 100%;
+border-radius: 50%;
+object-fit: cover;
 }
 
 .about-text {
@@ -941,6 +954,13 @@ font-size: 2.5rem;
 margin: 0 auto 30px auto;
 }
 
+.about-image img {
+width: 100%;
+height: 100%;
+border-radius: 50%;
+object-fit: cover;
+}
+
 .about-text {
 font-size: 1rem;
 padding: 0 5px;
@@ -992,12 +1012,16 @@ padding: 50px 20px;
 margin: 0 5px;
 }
 
-.resume-items {
-gap: 16px;
+.resume-section h3, .contact-section h3 {
+font-size: 1.3rem; /* Smaller font for very small screens */
+margin-bottom: 24px;
+white-space: nowrap;
+overflow: visible; /* Allow natural flow on small screens */
+text-overflow: clip;
 }
 
-.resume-item {
-padding: 20px;
+.resume-items {
+gap: 16px;
 }
 
 .contact-info {
@@ -1085,7 +1109,7 @@ outline-offset: 2px;
 </div>
 <div class="about-content">
 <div class="about-image">
-👨‍💻
+  <img src="1714832956697.jpg" alt="Teresa Xu" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />
 </div>
 <div class="about-text">
 <p>Hi, I'm Teresa — a product strategist with roots in credit risk and customer analytics, now transitioning into AI product management.</p>
