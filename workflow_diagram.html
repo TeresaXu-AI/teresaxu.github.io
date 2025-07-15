@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Scraper Bot - Workflow Overview</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 10px 20px 10px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.63em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+        
+        .header p {
+            margin: 5px 0 5px 0;
+            opacity: 0.8;
+            font-size: 0.91em;
+        }
+        
+        .workflow-section {
+            padding: 10px 40px 5px 40px; 
+            margin-top:1px
+        }
+        
+        .workflow-section h2 {
+            margin-top: 5px !important;
+            margin-bottom: 0px !important;
+            font-size:1.7em; /* Adjust this value to change the gap */
+        }
+        .workflow-section h3 {
+          
+            font-size:1.5em; /* Adjust this value to change the gap */
+        }
+
+        .workflow-section p {
+            margin-top: 5px !important; /* Remove top margin from paragraph */
+        }
+        
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: stretch; /* Ensures all grid items have the same height */
+        }
+        
+        .workflow-step {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 450px; /* Minimum height for consistency */
+        }
+        
+        .workflow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .step-initialization { border-left-color: #3498db; }
+        .step-search { border-left-color: #e74c3c; }
+        .step-analysis { border-left-color: #2ecc71; }
+        .step-storage { border-left-color: #f39c12; }
+        .step-monitoring { border-left-color: #9b59b6; }
+        
+        .step-number {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #2c3e50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .step-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            flex-shrink: 0; /* Prevents title from shrinking */
+        }
+        
+        .step-description {
+            line-height: 1.5;
+            margin-bottom: 0px;
+            flex-grow: 1; /* Takes up available space */
+            flex-shrink: 0; /* Prevents description from shrinking */
+        }
+        
+        .step-details {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-top: 30px;
+            margin-bottom: 20px; /* Pushes detail box to bottom */
+            flex-shrink: 0; /* Prevents shrinking */
+            height: 270px; /* Minimum height for consistency */
+        }
+        
+        .step-details h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+            font-size: 1.0em;
+        }
+        
+        .step-details ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .step-details li {
+            margin-bottom: 5px;
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+            margin-top:10px;
+        }
+
+        .flow-diagram h3 {
+        
+            margin-top: 0px ;
+            font-size:1.3em;
+        }
+        
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* Ensures boxes start at the same level */
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .flow-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+        
+        .flow-box::after {
+            content: '→';
+            position: absolute;
+            right: -23px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: #6c757d;
+        }
+        
+        .flow-box:last-child::after {
+            display: none;
+        }
+        
+        .metrics-section {
+            background: #2c3e50;
+            color: white;
+            padding: 40px;
+            margin-top: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .metric-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3498db;
+            display: block;
+        }
+        
+        .metric-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .tech-stack {
+            background: #ecf0f1;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .tech-item h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        
+        .api-flow {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .api-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .api-step {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .highlight h3 {
+            margin: 0 0 10px 0;
+            color: #856404;
+        }
+        
+        /* New Combined Technology & Integration Section */
+        .tech-integration-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+        
+
+        .tech-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .tech-header h3 {
+            font-size: 1.7em;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .tech-header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .tech-integration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .tech-category {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tech-category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tech-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .tech-category-header h4 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+        
+        .tech-cards {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .tech-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .api-badge, .ai-badge, .data-badge, .backend-badge, .automation-badge, .ml-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 12px;
+            text-transform: uppercase;
+        }
+        
+        .api-badge { background: #ff6b6b; color: white; }
+        .ai-badge { background: #4ecdc4; color: white; }
+        .data-badge { background: #45b7d1; color: white; }
+        .backend-badge { background: #96ceb4; color: white; }
+        .automation-badge { background: #feca57; color: white; }
+        .ml-badge { background: #ff9ff3; color: white; }
+        
+        .tech-card h5 {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .tech-card p {
+            margin: 0 0 15px 0;
+            line-height: 1.5;
+            color: #555;
+        }
+        
+        .tech-specs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .spec {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid #e9ecef;
+        }
+        
+        .integration-flow {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .integration-flow h4 {
+            margin: 0 0 25px 0;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .flow-diagram-mini {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 12px;
+            min-width: 100px;
+            transition: transform 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            transform: scale(1.05);
+        }
+        
+        .flow-icon {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        
+        .flow-step span {
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5em;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .flow-steps {
+                flex-direction: column;
+            }
+            
+            .flow-box::after {
+                content: '↓';
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+            
+            .api-steps {
+                flex-direction: column;
+            }
+            .tech-integration-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .flow-diagram-mini {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> Job Scraper Bot</h1>
+            <p>Automated Job Discovery & Analysis System</p>
+        </div>
+        
+        <div class="workflow-section">
+            <h2>System Overview</h2>
+            <p>This automated system searches for relevant job opportunities, analyzes them using AI, and maintains a curated list in Google Sheets. Here's how it works:</p>
+            
+            <div class="flow-diagram">
+                <h3>High-Level Workflow</h3>
+                <div class="flow-steps">
+                    <div class="flow-box">
+                        <strong>Initialize</strong><br>
+                        Load configs & credentials
+                    </div>
+                    <div class="flow-box">
+                        <strong>Search</strong><br>
+                        Fetch jobs via JSearch API
+                    </div>
+                    <div class="flow-box">
+                        <strong>Filter</strong><br>
+                        Apply smart filtering rules
+                    </div>
+                    <div class="flow-box">
+                        <strong>Analyze</strong><br>
+                        AI-powered job matching
+                    </div>
+                    <div class="flow-box">
+                        <strong>Store</strong><br>
+                        Update Google Sheets
+                    </div>
+                </div>
+            </div>
+            
+            <div class="workflow-grid">
+                <div class="workflow-step step-initialization">
+                    <div class="step-number">1</div>
+                    <div class="step-title">🚀 System Initialization</div>
+                    <div class="step-description">
+                        The system starts by loading all necessary configurations and establishing connections to external services.
+                    </div>
+                    <div class="step-details">
+                        <h4>Key Components:</h4>
+                        <ul>
+                            <li><strong>Environment Variables:</strong> API keys, Sheet IDs</li>
+                            <li><strong>Google Sheets Connection:</strong> Service account authentication</li>
+                            <li><strong>Resume Loading:</strong> Candidate profile for matching</li>
+                            <li><strong>Seen Jobs Cache:</strong> Duplicate prevention system</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="workflow-step step-search">
+                    <div class="step-number">2</div>
+                    <div class="step-title">🔍 Job Search & Retrieval</div>
+                    <div class="step-description">
+                        Uses JSearch API to find job listings based on predefined criteria and location preferences.
+                    </div>
+                    <div class="step-details">
+                        <h4>Search Parameters:</h4>
+                        <ul>
+                            <li><strong>Keywords:</strong> Python, Django, FastAPI, etc.</li>
+                            <li><strong>Locations:</strong> Remote, specific cities</li>
+                            <li><strong>Job Types:</strong> Full-time, contract, remote</li>
+                            <li><strong>Experience Level:</strong> Mid to senior level</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="workflow-step step-analysis">
+                    <div class="step-number">3</div>
+                    <div class="step-title">🧠 AI-Powered Analysis</div>
+                    <div class="step-description">
+                        Each job is analyzed using OpenRouter's AI to determine fit score, provide detailed reasoning, and generate improvement suggestions.
+                    </div>
+                    <div class="step-details">
+                        <h4>Analysis Output:</h4>
+                        <ul>
+                            <li><strong>Fit Score:</strong> 0-100 rating based on job requirements vs. resume</li>
+                            <li><strong>Worth Applying:</strong> Yes (≥50 score) / No (<50 score)</li>
+                            <li><strong>Detailed Reasoning:</strong> Explanation of match quality</li>
+                            <li><strong>Improvement Suggestions:</strong> Specific areas to enhance resume/skills</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="workflow-step step-storage">
+                    <div class="step-number">4</div>
+                    <div class="step-title">📊 Data Management</div>
+                    <div class="step-description">
+                        Results are stored in Google Sheets with automatic deduplication, recommendation flags, and actionable feedback.
+                    </div>
+                    <div class="step-details">
+                        <h4>Sheet Columns:</h4>
+                        <ul>
+                            <li><strong>Job Details:</strong> Title, company, location, URL, date</li>
+                            <li><strong>AI Analysis:</strong> Score, reasoning, worth applying flag</li>
+                            <li><strong>Improvement Tips:</strong> Personalized suggestions for skill development</li>
+                            <li><strong>Tracking:</strong> Historical record for deduplication</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div class="highlight">
+                <h3>💡 Key Business Value</h3>
+                <p><strong>Time Savings:</strong> Automates 90% of job search process, reducing manual effort from hours to minutes daily.</p>
+                <p><strong>Quality Matching:</strong> AI analysis provides consistent, objective job evaluation with clear Yes/No recommendations.</p>
+                <p><strong>Actionable Feedback:</strong> Personalized improvement suggestions help enhance resume and skills for better job matches.</p>
+                <p><strong>No Duplicates:</strong> Smart deduplication prevents seeing the same job multiple times.</p>
+                <p><strong>Scalable:</strong> Can easily adjust search criteria, add new job boards, or modify analysis parameters.</p>
+            </div>
+            
+            <div class="tech-integration-section">
+                <div class="tech-header">
+                    <h3> Technology & Integration Architecture</h3>
+                    <p>Modern tech stack powering seamless job discovery and analysis</p>
+                </div>
+                
+                <div class="tech-integration-grid">
+                    <div class="tech-category">
+                        <div class="tech-category-header">
+                            <div class="tech-icon">🛠️</div>
+                            <h4>API Integration Layer</h4>
+                        </div>
+                        <div class="tech-cards">
+                            <div class="tech-card api-card">
+                                <div class="card-header">
+                                    <span class="api-badge">API</span>
+                                    <h5>JSearch API</h5>
+                                </div>
+                                <p>Multi-platform job aggregation with intelligent filtering</p>
+                                <div class="tech-specs">
+                                    <span class="spec">Rate: 1 req/sec</span>
+                                    <span class="spec">Sources: 50+ boards</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-card ai-card">
+                                <div class="card-header">
+                                    <span class="ai-badge">AI</span>
+                                    <h5>OpenRouter AI</h5>
+                                </div>
+                                <p>DeepSeek-powered job analysis and matching</p>
+                                <div class="tech-specs">
+                                    <span class="spec">Batch: 3 jobs/req</span>
+                                    <span class="spec">Model: DeepSeek</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-card data-card">
+                                <div class="card-header">
+                                    <span class="data-badge">Data</span>
+                                    <h5>Google Sheets</h5>
+                                </div>
+                                <p>Real-time data storage with collaboration features</p>
+                                <div class="tech-specs">
+                                    <span class="spec">Sync: Real-time</span>
+                                    <span class="spec">Backup: Auto</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tech-category">
+                        <div class="tech-category-header">
+                            <div class="tech-icon">⚙️</div>
+                            <h4>Core Technology Stack</h4>
+                        </div>
+                        <div class="tech-cards">
+                            <div class="tech-card backend-card">
+                                <div class="card-header">
+                                    <span class="backend-badge">Backend</span>
+                                    <h5>Python 3.9+</h5>
+                                </div>
+                                <p>Robust backend with requests & gspread libraries</p>
+                                <div class="tech-specs">
+                                    <span class="spec">Async: Yes</span>
+                                    <span class="spec">Error Handling: Full</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-card automation-card">
+                                <div class="card-header">
+                                    <span class="automation-badge">Auto</span>
+                                    <h5>GitHub Actions</h5>
+                                </div>
+                                <p>Scheduled execution with continuous deployment</p>
+                                <div class="tech-specs">
+                                    <span class="spec">Schedule: Daily</span>
+                                    <span class="spec">Monitoring: 24/7</span>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-card ml-card">
+                                <div class="card-header">
+                                    <span class="ml-badge">ML</span>
+                                    <h5>NLP Processing</h5>
+                                </div>
+                                <p>Advanced natural language understanding</p>
+                                <div class="tech-specs">
+                                    <span class="spec">Accuracy: 95%</span>
+                                    <span class="spec">Speed: <1s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    
+</body>
+</html>
