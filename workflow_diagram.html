@@ -496,9 +496,94 @@
             .api-steps {
                 flex-direction: column;
             }
+            
+            /* Enhanced Tech Integration Section for Mobile */
+            .tech-integration-section {
+                padding: 30px 20px;
+                margin: 30px 0;
+                border-radius: 15px;
+            }
+            
+            .tech-header {
+                margin-bottom: 30px;
+            }
+            
+            .tech-header h3 {
+                font-size: 1.4em;
+                line-height: 1.3;
+            }
+            
+            .tech-header p {
+                font-size: 1em;
+                line-height: 1.4;
+            }
+            
             .tech-integration-grid {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 25px;
+                margin-bottom: 30px;
+            }
+            
+            .tech-category {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            
+            .tech-category-header {
+                margin-bottom: 20px;
+                padding-bottom: 12px;
+            }
+            
+            .tech-icon {
+                font-size: 1.6em;
+                margin-right: 12px;
+            }
+            
+            .tech-category-header h4 {
+                font-size: 1.2em;
+                line-height: 1.3;
+            }
+            
+            .tech-cards {
+                gap: 15px;
+            }
+            
+            .tech-card {
+                padding: 16px;
+                border-radius: 10px;
+            }
+            
+            .card-header {
+                margin-bottom: 10px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .api-badge, .ai-badge, .data-badge, .backend-badge, .automation-badge, .ml-badge {
+                padding: 3px 10px;
+                font-size: 0.75em;
+                margin-right: 8px;
+            }
+            
+            .tech-card h5 {
+                font-size: 1.1em;
+                line-height: 1.2;
+            }
+            
+            .tech-card p {
+                font-size: 0.95em;
+                line-height: 1.4;
+                margin-bottom: 12px;
+            }
+            
+            .tech-specs {
+                gap: 8px;
+            }
+            
+            .spec {
+                padding: 3px 8px;
+                font-size: 0.8em;
+                border-radius: 12px;
             }
             
             .flow-diagram-mini {
@@ -508,6 +593,47 @@
             
             .flow-arrow {
                 transform: rotate(90deg);
+            }
+        }
+        
+        /* Additional styles for very small screens */
+        @media (max-width: 480px) {
+            .tech-integration-section {
+                padding: 25px 15px;
+                margin: 25px 0;
+            }
+            
+            .tech-header h3 {
+                font-size: 1.3em;
+            }
+            
+            .tech-header p {
+                font-size: 0.95em;
+            }
+            
+            .tech-category {
+                padding: 18px;
+            }
+            
+            .tech-category-header h4 {
+                font-size: 1.1em;
+            }
+            
+            .tech-card {
+                padding: 14px;
+            }
+            
+            .tech-card h5 {
+                font-size: 1em;
+            }
+            
+            .tech-card p {
+                font-size: 0.9em;
+            }
+            
+            .spec {
+                font-size: 0.75em;
+                padding: 2px 6px;
             }
         }
     </style>
